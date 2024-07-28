@@ -1,20 +1,21 @@
-# Hypr-Zoom
+# hypr-zoom
 
-Hypr-Zoom is a command-line tool written in Go that smoothly animates the cursor zoom factor using different easing functions. It leverages the `hyprctl` command to adjust the cursor zoom and the `ease` library for interpolation.
+`hypr-zoom` is a command-line tool written in Go that smoothly animates the Hyprland cursor zoom-factor changes using variety of easing functions.
+It simply uses the `hyprctl` command to adjust the cursor zoom-factor and the ease library for animation interpolation.
+
+## Why ? 
+Hyprland cursor zoom factor changes happen instantly, which can feel ood since Hyprland has cool animations. This little CLI solves that.
 
 ## Features
 
-- Smoothly animates cursor zoom using a variety of easing functions.
+- Smoothly animates cursor zoom-factor using a variety of easing functions.
 - Configurable animation duration and steps.
-- Automatically retrieves the initial zoom factor.
 
 ## Installation
-
-To build the project, you need to have Go installed. You can download and install Go from the [official website](https://golang.org/dl/).
-
+Grab from release or :
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/hypr-zoom.git
+    git clone https://github.com/FaqihS/hypr-zoom.git
     cd hypr-zoom
     ```
 
@@ -45,8 +46,10 @@ This command will animate the zoom factor to 1.2 using the InOutExpo easing func
 hypr-zoom -easing=OutBack -easingOut=OutExpo 
 ```
 
-This command will animate the zoom factor using the Out easing function when zooming-in and OutExpo when zooming-out.
+This command will animate the zoom factor using the OutBack easing function when zooming-in and OutExpo when zooming-out.
 
+> [!WARNING]  
+> Adjust duration and steps wisely.
 
 ### Supported Easing Functions
 The following easing functions are supported:
@@ -62,6 +65,31 @@ The following easing functions are supported:
 - InBack, OutBack, InOutBack
 - InBounce, OutBounce, InOutBounce
 - InSquare, OutSquare, InOutSquare
+
+For animation preview [see here](https://github.com/fogleman/ease). 
+
+## Showcase
+### Default
+```sh
+hypr-zoom
+```
+https://github.com/user-attachments/assets/261aff62-955f-49e6-9a7b-c5f714389dc4
+### InOutCubic
+```sh
+hypr-zoom -easing=InOutCubic
+```
+https://github.com/user-attachments/assets/622d4a4b-b805-495d-8178-ad5e130279c2
+### OutBack-Inback
+```sh
+hypr-zoom -duration=600 -steps=150 -easing=OutBack -easingOut=InBack
+```
+https://github.com/user-attachments/assets/de4f2924-b5e8-43a8-9bbf-6f1ac795687c
+
+
+
+
+## Contributing
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes. Although i'm not real Go Dev :p
 
 ## Acknowledgements
 - [fogleman/ease](https://github.com/fogleman/ease) - Easing functions library used in this project.
