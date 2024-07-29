@@ -12,6 +12,7 @@ Hyprland cursor zoom factor changes happen instantly, which can feel ood since H
 - Configurable animation duration and steps.
 
 ## Installation
+install from aur: [hypr-zoom](https://aur.archlinux.org/packages/hypr-zoom)
 Grab from release or :
 1. Clone the repository:
     ```sh
