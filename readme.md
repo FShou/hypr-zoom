@@ -74,19 +74,19 @@ For animation preview [see here](https://github.com/fogleman/ease).
 - Log (Logarithmic)
 
 ## Showcase
-### Default
+### Default+Linear
 ```sh
-hypr-zoom
+hypr-zoom -interp=Linear
 ```
 https://github.com/user-attachments/assets/261aff62-955f-49e6-9a7b-c5f714389dc4
 ### InOutCubic
 ```sh
-hypr-zoom -easing=InOutCubic
+hypr-zoom -easing=InOutCubic -interp=Linear
 ```
 https://github.com/user-attachments/assets/622d4a4b-b805-495d-8178-ad5e130279c2
 ### OutBack-Inback
 ```sh
-hypr-zoom -duration=600 -steps=150 -easing=OutBack -easingOut=InBack
+hypr-zoom -duration=600 -steps=150 -easing=OutBack -easingOut=InBack -interp=Linear
 ```
 https://github.com/user-attachments/assets/de4f2924-b5e8-43a8-9bbf-6f1ac795687c
 
