@@ -8,7 +8,7 @@ Hyprland cursor zoom factor changes happen instantly, which can feel ood since H
 
 ## Features
 
-- Smoothly animates cursor zoom-factor using a variety of easing functions.
+- Smoothly animates cursor zoom-factor using a variety of easing and interpolation functions.
 - Configurable animation duration and steps.
 
 ## Installation
@@ -33,6 +33,7 @@ The `hypr-zoom` command has several flags to configure the animation:
 - `-easing`: Easing function to use for the animation (default: InOutExpo)
 - `-easingOut`: Easing function to use for the zoom-out animation (optional)
 - `-target`: Target zoom factor (default: 2.0)
+- `-interp`: Interpolation Function used for animation(default: Log)
 
 ### Example
 
@@ -67,6 +68,10 @@ The following easing functions are supported:
 - InSquare, OutSquare, InOutSquare
 
 For animation preview [see here](https://github.com/fogleman/ease). 
+
+### Supported Interpolation function
+- Linear
+- Log (Logarithmic)
 
 ## Showcase
 ### Default
