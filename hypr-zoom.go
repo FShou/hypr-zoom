@@ -3,28 +3,38 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/fogleman/ease"
+	"math"
 	"os/exec"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/fogleman/ease"
 )
 
 type EasingFunction func(t float64) float64
+type InterpolatorFunc func(s , e, t float64) float64
 
 // Linear interpolation function
 func lerp(start, end, t float64) float64 {
 	return start + t*(end-start)
 }
 
+func logInterp(start, end, t float64) float64 {
+    if t == 0 {
+        return start
+    }
+    return start + (end-start)*(math.Log(t+1)/math.Log(2))
+}
+
 // Main animation loop
-func zoom(duration int, steps int, startValue, endValue float64, easingFunc EasingFunction) {
+func zoom(duration int, steps int, startValue, endValue float64, easingFunc EasingFunction, interInterpolatorFunc InterpolatorFunc) {
 	interval := float64(duration) / float64(steps) / 1000
 
 	for i := 0; i <= steps; i++ {
 		t := float64(i) / float64(steps)
 		easedT := easingFunc(t)
-		interpolatedValue := lerp(startValue, endValue, easedT)
+		interpolatedValue := interInterpolatorFunc(startValue, endValue, easedT)
 
 		_ = exec.Command("hyprctl", "keyword", "cursor:zoom_factor", fmt.Sprintf("%f", interpolatedValue)).Run()
 		time.Sleep(time.Duration(interval * float64(time.Second)))
@@ -49,9 +59,10 @@ func main() {
 
 	duration := flag.Int("duration", 500, "Duration of the animation in milliseconds")
 	steps := flag.Int("steps", 100, "Number of steps in the animation")
-	easing := flag.String("easing", "InOutExpo", "Easing function to use (easeInOutCubic)")
-	easingOut := flag.String("easingOut", "", "Easing function to use (easeInOutCubic)")
+	easing := flag.String("easing", "InOutExpo", "Easing function to use")
+	easingOut := flag.String("easingOut", "", "Easing function to use for zoom-out (optional)")
 	targetZoom := flag.Float64("target", 2.0, "Zoom Target")
+  interpolator := flag.String("interp","Log", "Animation interpolator function")
 	flag.Parse()
 
 	initialZoom, err := strconv.ParseFloat(strings.TrimSpace(output), 64)
@@ -96,10 +107,24 @@ func main() {
 		"OutSquare":   ease.OutSquare,
 		"InOutSquare": ease.InOutSquare,
 	}
+
+  interpolatorFunctions := map[string] InterpolatorFunc{
+    "Log": logInterp,
+    "Linear": lerp,
+  }
+
+  interpolatorFunc, exists := interpolatorFunctions[*interpolator]
+  if !exists {
+		fmt.Println("Unknown interpolator function:", *interpolator, "Set to default")
+    interpolatorFunc = interpolatorFunctions["Log"]
+  }
+
+
+
 	easingFunction, exists := easingFunctions[*easing]
 	if !exists {
-		fmt.Println("Unknown easing function:", *easing)
-		return
+		fmt.Println("Unknown easing function:", *easing, "Set to default")
+		easingFunction = easingFunctions["InOutExpo"]
 	}
 
 	if initialZoom > 1 {
@@ -110,5 +135,5 @@ func main() {
 		}
 	}
 
-	zoom(*duration, *steps, initialZoom, *targetZoom, easingFunction)
+	zoom(*duration, *steps, initialZoom, *targetZoom, easingFunction, interpolatorFunc)
 }
