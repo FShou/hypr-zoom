@@ -71,6 +71,11 @@ func main() {
 		return
 	}
 
+	if *steps <= 0 {
+		fmt.Println("Error: `steps` must be greater than 0.")
+		return
+	}
+
 	easingFunctions := map[string]EasingFunction{
 		"Linear":     ease.Linear,
 		"InQuad":     ease.InQuad,
