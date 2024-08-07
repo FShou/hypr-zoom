@@ -13,7 +13,7 @@ import (
 )
 
 type EasingFunction func(t float64) float64
-type InterpolatorFunc func(s , e, t float64) float64
+type InterpolatorFunc func(s, e, t float64) float64
 
 // Linear interpolation function
 func lerp(start, end, t float64) float64 {
@@ -21,10 +21,10 @@ func lerp(start, end, t float64) float64 {
 }
 
 func logInterp(start, end, t float64) float64 {
-    if t == 0 {
-        return start
-    }
-    return start + (end-start)*(math.Log(t+1)/math.Log(2))
+	if t == 0 {
+		return start
+	}
+	return start + (end-start)*(math.Log(t+1)/math.Log(2))
 }
 
 // Main animation loop
@@ -62,7 +62,7 @@ func main() {
 	easing := flag.String("easing", "InOutExpo", "Easing function to use")
 	easingOut := flag.String("easingOut", "", "Easing function to use for zoom-out (optional)")
 	targetZoom := flag.Float64("target", 2.0, "Zoom Target")
-  interpolator := flag.String("interp","Log", "Animation interpolator function")
+	interpolator := flag.String("interp", "Log", "Animation interpolator function")
 	flag.Parse()
 
 	initialZoom, err := strconv.ParseFloat(strings.TrimSpace(output), 64)
@@ -108,18 +108,16 @@ func main() {
 		"InOutSquare": ease.InOutSquare,
 	}
 
-  interpolatorFunctions := map[string] InterpolatorFunc{
-    "Log": logInterp,
-    "Linear": lerp,
-  }
+	interpolatorFunctions := map[string]InterpolatorFunc{
+		"Log":    logInterp,
+		"Linear": lerp,
+	}
 
-  interpolatorFunc, exists := interpolatorFunctions[*interpolator]
-  if !exists {
+	interpolatorFunc, exists := interpolatorFunctions[*interpolator]
+	if !exists {
 		fmt.Println("Unknown interpolator function:", *interpolator, "Set to default")
-    interpolatorFunc = interpolatorFunctions["Log"]
-  }
-
-
+		interpolatorFunc = interpolatorFunctions["Log"]
+	}
 
 	easingFunction, exists := easingFunctions[*easing]
 	if !exists {
