@@ -63,6 +63,7 @@ func main() {
 	easingOut := flag.String("easingOut", "", "Easing function to use for zoom-out (optional)")
 	targetZoom := flag.Float64("target", 2.0, "Zoom Target")
 	interpolator := flag.String("interp", "Log", "Animation interpolator function")
+	force := flag.Bool("force", false, "Forcing target parameter even if zoom is not equal to 1")
 	flag.Parse()
 
 	initialZoom, err := strconv.ParseFloat(strings.TrimSpace(output), 64)
@@ -130,7 +131,7 @@ func main() {
 		easingFunction = easingFunctions["InOutExpo"]
 	}
 
-	if initialZoom > 1 {
+	if (initialZoom > 1 && !*force) {
 		*targetZoom = 1.0
 		_, exists := easingFunctions[*easingOut]
 		if exists {
