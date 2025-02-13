@@ -36,6 +36,7 @@ The `hypr-zoom` command has several flags to configure the animation:
 - `-easingOut`: Easing function to use for the zoom-out animation (optional)
 - `-target`: Target zoom factor (default: 2.0)
 - `-interp`: Interpolation Function used for animation(default: Log)
+- `-force` : Forcing target parameter (default: false)
 
 ### Example
 
